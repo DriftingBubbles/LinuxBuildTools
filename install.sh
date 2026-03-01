@@ -21,7 +21,25 @@ echo ""
 bash "${SCRIPT_DIR}/scripts/install_apt_packages.sh"
 echo ""
 
+bash "${SCRIPT_DIR}/scripts/install_language_support.sh"
+echo ""
+
 bash "${SCRIPT_DIR}/scripts/install_snaps.sh"
+echo ""
+
+bash "${SCRIPT_DIR}/scripts/download_utility_snaps.sh"
+echo ""
+
+bash "${SCRIPT_DIR}/scripts/download_entertainment_snaps.sh"
+echo ""
+
+bash "${SCRIPT_DIR}/scripts/download_emulator_snaps.sh"
+echo ""
+
+bash "${SCRIPT_DIR}/scripts/download_server_snaps.sh"
+echo ""
+
+bash "${SCRIPT_DIR}/scripts/download_productivity_snaps.sh"
 echo ""
 
 bash "${SCRIPT_DIR}/scripts/setup_fileshare.sh"

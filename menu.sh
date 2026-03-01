@@ -162,7 +162,13 @@ main_menu() {
         echo "  2) Install all missing snap packages from the store"
         echo "  3) Run full system installation (apt + snaps + fileshare)"
         echo "  4) Set up Samba file share only"
-        echo "  5) Refresh snap status"
+        echo "  5) Install language support (selected languages)"
+        echo "  6) Download utility snaps (/shared/snaps)"
+        echo "  7) Download entertainment snaps (/shared/snaps)"
+        echo "  8) Download emulator snaps (/shared/snaps)"
+        echo "  9) Download server snaps (/shared/snaps)"
+        echo " 10) Download productivity snaps (/shared/snaps)"
+        echo " 11) Refresh snap status"
         echo "  q) Quit"
         echo ""
         read -r -p "Choose an option: " choice
@@ -196,6 +202,54 @@ main_menu() {
                 read -r -p "Press Enter to continue..." _
                 ;;
             5)
+                if [[ $EUID -ne 0 ]]; then
+                    echo -e "${YELLOW}Root required. Re-running with sudo...${RESET}"
+                    exec sudo bash "${SCRIPT_DIR}/scripts/install_language_support.sh"
+                fi
+                bash "${SCRIPT_DIR}/scripts/install_language_support.sh"
+                read -r -p "Press Enter to continue..." _
+                ;;
+            6)
+                if [[ $EUID -ne 0 ]]; then
+                    echo -e "${YELLOW}Root required. Re-running with sudo...${RESET}"
+                    exec sudo bash "${SCRIPT_DIR}/scripts/download_utility_snaps.sh"
+                fi
+                bash "${SCRIPT_DIR}/scripts/download_utility_snaps.sh"
+                read -r -p "Press Enter to continue..." _
+                ;;
+            7)
+                if [[ $EUID -ne 0 ]]; then
+                    echo -e "${YELLOW}Root required. Re-running with sudo...${RESET}"
+                    exec sudo bash "${SCRIPT_DIR}/scripts/download_entertainment_snaps.sh"
+                fi
+                bash "${SCRIPT_DIR}/scripts/download_entertainment_snaps.sh"
+                read -r -p "Press Enter to continue..." _
+                ;;
+            8)
+                if [[ $EUID -ne 0 ]]; then
+                    echo -e "${YELLOW}Root required. Re-running with sudo...${RESET}"
+                    exec sudo bash "${SCRIPT_DIR}/scripts/download_emulator_snaps.sh"
+                fi
+                bash "${SCRIPT_DIR}/scripts/download_emulator_snaps.sh"
+                read -r -p "Press Enter to continue..." _
+                ;;
+            9)
+                if [[ $EUID -ne 0 ]]; then
+                    echo -e "${YELLOW}Root required. Re-running with sudo...${RESET}"
+                    exec sudo bash "${SCRIPT_DIR}/scripts/download_server_snaps.sh"
+                fi
+                bash "${SCRIPT_DIR}/scripts/download_server_snaps.sh"
+                read -r -p "Press Enter to continue..." _
+                ;;
+            10)
+                if [[ $EUID -ne 0 ]]; then
+                    echo -e "${YELLOW}Root required. Re-running with sudo...${RESET}"
+                    exec sudo bash "${SCRIPT_DIR}/scripts/download_productivity_snaps.sh"
+                fi
+                bash "${SCRIPT_DIR}/scripts/download_productivity_snaps.sh"
+                read -r -p "Press Enter to continue..." _
+                ;;
+            11)
                 # just loop back to refresh the display
                 ;;
             q|Q)
