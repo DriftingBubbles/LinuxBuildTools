@@ -27,18 +27,22 @@ apt-get install -y \
     ca-certificates \
     gnupg \
     lsb-release
+
 # ---------------------------------------------------------------------------
-# PEnsure multiverse repository is available
+# Ensure multiverse repository is available
 # ---------------------------------------------------------------------------
-echo "--- Upadte source list to pull from additional repositories ---"
-sudo add-apt-repository multiverse
+echo "--- Update source list to pull from additional repositories ---"
+add-apt-repository -y multiverse
+
 echo "--- Updating package lists ---"
 apt-get update -y
+
 # ---------------------------------------------------------------------------
 # Pre-download restricted extras for increased usability compatibility and file conversions
 # ---------------------------------------------------------------------------
-echo "--- Download restricted extras so they are available for install by users who need to accept license  ---"
-apt download ubuntu-restricted-extras
+echo "--- Download restricted extras so they are available for install by users who need to accept license ---"
+apt install --download-only ubuntu-restricted-extras
+
 # ---------------------------------------------------------------------------
 # Kiwix tools – offline Wikipedia / knowledge base reader (CLI tools)
 # ---------------------------------------------------------------------------
@@ -61,6 +65,32 @@ echo "--- Installing Samba ---"
 apt-get install -y samba samba-common-bin
 
 # ---------------------------------------------------------------------------
+# Network tools and common network servers (DNS/DHCP/diagnostics)
+# ---------------------------------------------------------------------------
+echo "--- Installing network tools and network server packages ---"
+apt-get install -y \
+    openssh-client \
+    openssh-server \
+    bind9 \
+    dnsutils \
+    kea \
+    net-tools \
+    iproute2 \
+    iputils-ping \
+    traceroute \
+    nmap \
+    tcpdump \
+    netcat-openbsd
+
+# ---------------------------------------------------------------------------
+# Archives / compression tools
+# ---------------------------------------------------------------------------
+echo "--- Installing 7zip tools ---"
+apt-get install -y \
+    p7zip \
+    p7zip-full
+
+# ---------------------------------------------------------------------------
 # Hardware drivers helper
 # ---------------------------------------------------------------------------
 echo "--- Installing ubuntu-drivers-common ---"
@@ -73,6 +103,14 @@ echo "--- Adding Cubic PPA and installing ---"
 add-apt-repository -y ppa:cubic-wizard/release
 apt-get update -y
 apt-get install -y cubic
+
+# ---------------------------------------------------------------------------
+# Desktop environments (GNOME / KDE) - full installs by default
+# ---------------------------------------------------------------------------
+echo "--- Installing GNOME and KDE desktop environments ---"
+apt-get install --download-only -y \
+    ubuntu-desktop \
+    kubuntu-desktop
 
 # ---------------------------------------------------------------------------
 # Language support (base English + common packs)
