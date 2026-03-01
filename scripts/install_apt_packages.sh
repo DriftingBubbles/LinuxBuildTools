@@ -27,7 +27,18 @@ apt-get install -y \
     ca-certificates \
     gnupg \
     lsb-release
-
+# ---------------------------------------------------------------------------
+# PEnsure multiverse repository is available
+# ---------------------------------------------------------------------------
+echo "--- Upadte source list to pull from additional repositories ---"
+sudo add-apt-repository multiverse
+echo "--- Updating package lists ---"
+apt-get update -y
+# ---------------------------------------------------------------------------
+# Pre-download restricted extras for increased usability compatibility and file conversions
+# ---------------------------------------------------------------------------
+echo "--- Download restricted extras so they are available for install by users who need to accept license  ---"
+apt download ubuntu-restricted-extras
 # ---------------------------------------------------------------------------
 # Kiwix tools – offline Wikipedia / knowledge base reader (CLI tools)
 # ---------------------------------------------------------------------------
@@ -40,8 +51,8 @@ apt-get install -y kiwix-tools || {
 # ---------------------------------------------------------------------------
 # Torrent client (headless, daemon-friendly)
 # ---------------------------------------------------------------------------
-echo "--- Installing torrent client (qbittorrent-nox) ---"
-apt-get install -y qbittorrent-nox
+echo "--- Installing torrent clients (qbittorrent-nox / deluge) ---"
+apt-get install -y qbittorrent-nox deluge
 
 # ---------------------------------------------------------------------------
 # File sharing – Samba (see setup_fileshare.sh for configuration)
