@@ -2,6 +2,14 @@
 # Drifting Bubble OS - Emulator Snap Downloader
 # Downloads popular emulator snaps (plus assertions) into /shared/snaps.
 #
+# ROM sourcing note:
+# - Use only properly licensed, homebrew, or public domain ROM files.
+# - Helpful sources include:
+#   - https://pdroms.de/
+#   - https://www.scummvm.org/games/
+#   - https://archive.org/details/softwarelibrary (license varies by item)
+# - Always verify each file's license and your local redistribution laws.
+#
 # Usage: sudo bash scripts/download_emulator_snaps.sh
 #
 # Environment variables:
@@ -22,6 +30,18 @@ fi
 
 SNAP_DOWNLOAD_DIR="${SNAP_DOWNLOAD_DIR:-/shared/snaps}"
 mkdir -p "${SNAP_DOWNLOAD_DIR}"
+
+print_rom_sourcing_note() {
+    echo ""
+    echo "=== ROM sourcing note ==="
+    echo "Use only properly licensed, homebrew, or public domain ROM files."
+    echo "Helpful sources:"
+    echo "- https://pdroms.de/"
+    echo "- https://www.scummvm.org/games/"
+    echo "- https://archive.org/details/softwarelibrary (license varies by item)"
+    echo "Always verify file licenses and local redistribution laws."
+    echo ""
+}
 
 download_emulator() {
     local emu_slug="$1"
@@ -78,6 +98,7 @@ download_emulator() {
 }
 
 echo "--- Emulator snap download destination: ${SNAP_DOWNLOAD_DIR} ---"
+print_rom_sourcing_note
 
 # Popular emulator choices with fallback snap names
 download_emulator "retroarch" "" "retroarch" || true

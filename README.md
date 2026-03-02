@@ -6,6 +6,15 @@ utilities, and entertainment that can be shared over a local network.
 
 ---
 
+## Requirements
+
+- Ubuntu/Debian-based Linux
+- `sudo` access for install/setup scripts
+- `snapd` for snap-based scripts
+- `rsync` or `wget` (and optionally `curl`) for Kiwix torrent retrieval
+
+---
+
 ## Features
 
 | Category | Tool / Package |
@@ -21,6 +30,8 @@ utilities, and entertainment that can be shared over a local network.
 
 Additional reference guides:
 - [Public Domain & Open Knowledge Resources](PUBLIC_DOMAIN_RESOURCES.md)
+- [Offline Knowledge Continuity Guide](OFFLINE_KNOWLEDGE_README.md)
+- [Cubic ISO Creation Guide](CUBIC_ISO_GUIDE.md)
 
 ---
 
@@ -30,6 +41,10 @@ Additional reference guides:
 LinuxBuildTools/
 ├── install.sh                    # Main orchestration script (run first)
 ├── menu.sh                       # Interactive system management menu
+├── README.md
+├── PUBLIC_DOMAIN_RESOURCES.md
+├── OFFLINE_KNOWLEDGE_README.md
+├── resources/
 └── scripts/
     ├── install_apt_packages.sh   # Install packages via apt
    ├── install_language_support.sh # Install selected language support packs
@@ -38,7 +53,9 @@ LinuxBuildTools/
    ├── download_emulator_snaps.sh # Download emulator snaps to /shared/snaps
    ├── download_server_snaps.sh # Download server snaps to /shared/snaps
    ├── download_productivity_snaps.sh # Download productivity snaps to /shared/snaps
-   ├── download_kiwix_torrents.sh # Download latest Kiwix torrent files
+   ├── download_kiwix_torrents.sh # Download latest Kiwix .zim.torrent files
+   ├── prepare_cubic_host.sh # Prepare host for Cubic + Ubuntu ISO download
+   ├── move_cubic_share_to_root.sh # Move host Cubic source dirs into Cubic root
     ├── install_snaps.sh          # Install & cache packages via snap
     └── setup_fileshare.sh        # Configure Samba LAN file share
 ```
@@ -74,6 +91,9 @@ Top-level installer. Runs the sub-scripts in order:
 7. `scripts/download_server_snaps.sh`
 8. `scripts/download_productivity_snaps.sh`
 9. `scripts/setup_fileshare.sh`
+
+Note: `scripts/download_kiwix_torrents.sh` is an optional/manual content step
+and is not part of `install.sh` by default.
 
 ```bash
 sudo bash install.sh
@@ -196,6 +216,32 @@ bash scripts/download_kiwix_torrents.sh
 KIWIX_TORRENT_DIR=/media/usb/torrent/zim bash scripts/download_kiwix_torrents.sh
 ```
 
+### `scripts/prepare_cubic_host.sh`
+Prepares a host system for Cubic ISO building by installing Cubic,
+downloading the latest Ubuntu Desktop ISO, and creating host source
+directories for media, ZIM files, torrents, and installers.
+
+```bash
+sudo bash scripts/prepare_cubic_host.sh
+
+# Optional custom host root path
+CUBIC_HOST_ROOT=/data/cubic sudo bash scripts/prepare_cubic_host.sh
+
+# Optional explicit Ubuntu version
+ISO_VERSION=24.04.2 sudo bash scripts/prepare_cubic_host.sh
+```
+
+### `scripts/move_cubic_share_to_root.sh`
+Moves content from host Cubic source directories into the Cubic root
+environment share directory, then sets ownership to `root:users`.
+
+```bash
+sudo bash scripts/move_cubic_share_to_root.sh
+
+# Run outside Cubic shell/chroot by targeting a specific Cubic rootfs path
+CUBIC_ROOT=/path/to/cubic-project/custom-root sudo bash scripts/move_cubic_share_to_root.sh
+```
+
 ### `scripts/setup_fileshare.sh`
 Configures a read-only Samba share (`DriftingBubble`) pointing to
 `/srv/drifting-bubble`. Devices on the same network can browse to
@@ -213,7 +259,13 @@ Interactive bash menu that:
 - Scans the local snap store directory for `.snap` files.
 - Shows each package with **[INSTALLED]** or **[NOT INSTALLED]** status.
 - Lets you install individual snaps or all missing snaps in one step.
-- Can run the full installer or set up the file share from the menu.
+- Can run the full installer and all configured snap download groups.
+
+Current menu options include:
+- Full install and file-share setup
+- Language support installer
+- Utility, entertainment, emulator, server, and productivity snap downloads
+- Snap status refresh
 
 ```bash
 bash menu.sh
@@ -232,6 +284,9 @@ SNAP_STORE_DIR=/media/usb/snaps bash menu.sh
    Samba share.
 3. On the next machine, set `SNAP_STORE_DIR` to the USB path and run
    `menu.sh` → *Install all missing snap packages from the store*.
+
+For Kiwix content torrents, run `scripts/download_kiwix_torrents.sh` and share
+the `/share/torrent/zim` directory (or your custom `KIWIX_TORRENT_DIR`).
 
 ---
 
