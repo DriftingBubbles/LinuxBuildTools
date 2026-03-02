@@ -11,6 +11,8 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
+export DEBIAN_FRONTEND=noninteractive
+
 echo "--- Updating package lists ---"
 apt-get update -y
 
@@ -41,7 +43,7 @@ apt-get update -y
 # Pre-download restricted extras for increased usability compatibility and file conversions
 # ---------------------------------------------------------------------------
 echo "--- Download restricted extras so they are available for install by users who need to accept license ---"
-apt install --download-only ubuntu-restricted-extras
+apt-get install -y --download-only ubuntu-restricted-extras
 
 # ---------------------------------------------------------------------------
 # Kiwix tools – offline Wikipedia / knowledge base reader (CLI tools)

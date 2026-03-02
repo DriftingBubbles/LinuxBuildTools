@@ -22,7 +22,7 @@ Cubic is a GUI tool for customizing Ubuntu ISO images.
 
 ## Step-by-step
 
-## 1) Prepare host machine
+### 1) Prepare host machine
 
 On your Ubuntu host machine:
 - Install this repository and run base setup tools as needed.
@@ -44,19 +44,25 @@ sudo bash scripts/install_apt_packages.sh
 sudo bash scripts/install_snaps.sh
 ```
 
-## 2) Download base Ubuntu ISO
+### 2) Download base Ubuntu ISO
 
 - Download an official Ubuntu ISO from Ubuntu releases.
 - Keep checksum/signature files and verify integrity before use.
 
-## 3) Create Cubic project
+Example checksum verification:
+
+```bash
+sha256sum ubuntu-24.04.2-desktop-amd64.iso
+```
+
+### 3) Create Cubic project
 
 1. Launch Cubic.
 2. Select a new project directory (for example: `/opt/cubic/my-build`).
 3. Choose your base Ubuntu ISO.
 4. Let Cubic extract the filesystem.
 
-## 4) Customize inside Cubic shell
+### 4) Customize inside Cubic shell
 
 In Cubic’s terminal stage, you can:
 - Install/remove packages.
@@ -80,7 +86,7 @@ If running outside the Cubic shell/chroot, target the extracted rootfs path:
 CUBIC_ROOT=/path/to/cubic-project/custom-root sudo bash scripts/move_cubic_share_to_root.sh
 ```
 
-## 5) Use repository scripts during customization
+### 5) Use repository scripts during customization
 
 These scripts are useful during ISO preparation and for post-install use:
 
@@ -109,14 +115,14 @@ These scripts are useful during ISO preparation and for post-install use:
 - [menu.sh](menu.sh)
   - Interactive operator menu for repeatable operations after installation.
 
-## 6) Configure boot/user experience in Cubic
+### 6) Configure boot/user experience in Cubic
 
 Before building:
 - Set a clear ISO name/version in Cubic.
 - Add release notes/changelog text for your build.
 - Keep branding/version strings consistent with repository docs.
 
-## 7) Build the custom ISO
+### 7) Build the custom ISO
 
 In Cubic:
 1. Proceed to the Generate page.
@@ -125,7 +131,7 @@ In Cubic:
 
 Output is written to your Cubic project output folder.
 
-## 8) Test before sharing
+### 8) Test before sharing
 
 Test in a virtual machine (VirtualBox/KVM/VMware):
 - Installer boots and completes normally.
@@ -134,7 +140,18 @@ Test in a virtual machine (VirtualBox/KVM/VMware):
 - Snap cache and optional content directories are present.
 - Samba share setup behaves as expected.
 
-## 9) Share the ISO
+Test matrix:
+
+| Check | Expected result |
+|---|---|
+| Boot | ISO boots to installer/live environment |
+| Install | Installation completes cleanly |
+| Network | Basic network connectivity works |
+| Menu | `menu.sh` options run without errors |
+| Shares | Samba share setup works on LAN |
+| Content | Staged content paths are present and readable |
+
+### 9) Share the ISO
 
 For distribution:
 - Include checksum files (`sha256sum`) with the ISO.

@@ -81,8 +81,19 @@ echo "--- Share [${SHARE_NAME}] added to ${SMB_CONF} ---"
 # ---------------------------------------------------------------------------
 # Reload Samba
 # ---------------------------------------------------------------------------
-systemctl enable smbd nmbd
-systemctl restart smbd nmbd
+manage_service_if_present() {
+    local unit_name="$1"
+
+    if systemctl list-unit-files --type=service --no-legend 2>/dev/null | awk '{print $1}' | grep -qx "${unit_name}.service"; then
+        systemctl enable "${unit_name}"
+        systemctl restart "${unit_name}"
+    else
+        echo "Service not found, skipping: ${unit_name}.service"
+    fi
+}
+
+manage_service_if_present "smbd"
+manage_service_if_present "nmbd"
 
 echo ""
 echo "=== Samba file share setup complete ==="

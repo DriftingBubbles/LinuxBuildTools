@@ -9,6 +9,8 @@
 # Environment variables:
 #   HOST_CUBIC_SOURCE_ROOT  Host source root (default: /shared/cubic/source)
 #   CUBIC_ROOT              Cubic root filesystem path (default: /)
+#   DRY_RUN                 If true, show actions without moving files
+#                           (default: false)
 #
 # Special instruction:
 # - If running this OUTSIDE the Cubic shell/chroot, set CUBIC_ROOT to the
@@ -23,6 +25,7 @@ fi
 
 HOST_CUBIC_SOURCE_ROOT="${HOST_CUBIC_SOURCE_ROOT:-/shared/cubic/source}"
 CUBIC_ROOT="${CUBIC_ROOT:-/}"
+DRY_RUN="${DRY_RUN:-false}"
 
 if [[ ! -d "${HOST_CUBIC_SOURCE_ROOT}" ]]; then
     echo "Error: host source root not found: ${HOST_CUBIC_SOURCE_ROOT}" >&2
@@ -74,9 +77,30 @@ move_from_source_dir() {
     echo "[move] ${source_dir} -> ${dest_dir}"
     mkdir -p "${dest_dir}"
 
+    if command -v rsync >/dev/null 2>&1; then
+        local rsync_flags=("-a" "--ignore-existing")
+
+        if [[ "${DRY_RUN}" == "true" ]]; then
+            rsync_flags+=("--dry-run")
+        else
+            rsync_flags+=("--remove-source-files")
+        fi
+
+        rsync "${rsync_flags[@]}" "${source_dir}/" "${dest_dir}/"
+
+        if [[ "${DRY_RUN}" != "true" ]]; then
+            find "${source_dir}" -type d -empty -delete
+        fi
+        return 0
+    fi
+
     local item
     for item in "${items[@]}"; do
-        mv "${item}" "${dest_dir}/"
+        if [[ "${DRY_RUN}" == "true" ]]; then
+            echo "[dry-run] mv -n ${item} ${dest_dir}/"
+        else
+            mv -n "${item}" "${dest_dir}/"
+        fi
     done
 }
 

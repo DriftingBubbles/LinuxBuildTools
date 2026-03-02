@@ -17,7 +17,7 @@ A local offline knowledge library can support households, schools, clinics, and 
 
 ## Priority knowledge areas
 
-## 1) Medical and public health
+### 1) Medical and public health
 
 Keep offline references for:
 - basic first aid,
@@ -31,7 +31,7 @@ Public sources:
 - U.S. Centers for Disease Control and Prevention (CDC): https://www.cdc.gov/
 - Médecins Sans Frontières (MSF) medical guidelines/resources: https://medicalguidelines.msf.org/
 
-## 2) Survival and emergency preparedness
+### 2) Survival and emergency preparedness
 
 Keep offline references for:
 - emergency planning checklists,
@@ -44,7 +44,7 @@ Public sources:
 - International Federation of Red Cross and Red Crescent Societies (IFRC): https://www.ifrc.org/
 - Sphere Handbook (humanitarian standards): https://spherestandards.org/handbook/
 
-## 3) Water, sanitation, and hygiene (WASH)
+### 3) Water, sanitation, and hygiene (WASH)
 
 Keep offline references for:
 - safe water treatment options,
@@ -57,7 +57,7 @@ Public sources:
 - UNICEF WASH: https://www.unicef.org/wash
 - CDC Water, Sanitation & Hygiene-related guidance: https://www.cdc.gov/healthywater/
 
-## 4) Communication and coordination
+### 4) Communication and coordination
 
 Keep offline references for:
 - radio communication basics,
@@ -70,7 +70,7 @@ Public sources:
 - U.S. FEMA communications resources: https://www.fema.gov/
 - ARRL (amateur radio emergency resources): https://www.arrl.org/public-service
 
-## 5) Education continuity
+### 5) Education continuity
 
 Keep offline references for:
 - core literacy and numeracy materials,
@@ -85,7 +85,7 @@ Public sources:
 - Wikiversity (open learning resources): https://www.wikiversity.org/
 - Project Gutenberg (public domain books): https://www.gutenberg.org/
 
-## 6) Spirituality and cultural resilience
+### 6) Spirituality and cultural resilience
 
 Spiritual and reflective resources can support mental resilience, ethical guidance,
 and community cohesion during prolonged outages and emergencies.

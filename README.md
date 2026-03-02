@@ -4,6 +4,17 @@ Bash scripts to build and manage a **Drifting Bubble OS** — a self-contained,
 offline-capable Linux environment providing a free library of knowledge, media,
 utilities, and entertainment that can be shared over a local network.
 
+## Philosophy
+
+The core idea behind **Drifting Bubble** is to create a portable "bubble" of
+offline internet knowledge that people can carry, replicate, and share.
+
+When internet access is limited or unavailable, this project helps communities
+keep access to practical information, learning materials, and communication
+tools. As people move between locations, that knowledge bubble can "drift"
+with them and be re-shared locally, helping others reconnect to essential
+resources without depending on live internet access.
+
 ---
 
 ## Requirements
@@ -12,6 +23,12 @@ utilities, and entertainment that can be shared over a local network.
 - `sudo` access for install/setup scripts
 - `snapd` for snap-based scripts
 - `rsync` or `wget` (and optionally `curl`) for Kiwix torrent retrieval
+
+## Path conventions
+
+- Snap download cache/staging: `/shared/snaps`
+- Kiwix torrent staging: `/share/torrent/zim`
+- Cubic host workspace root: `/shared/cubic`
 
 ---
 
@@ -44,6 +61,7 @@ LinuxBuildTools/
 ├── README.md
 ├── PUBLIC_DOMAIN_RESOURCES.md
 ├── OFFLINE_KNOWLEDGE_README.md
+├── CUBIC_ISO_GUIDE.md
 ├── resources/
 └── scripts/
     ├── install_apt_packages.sh   # Install packages via apt
@@ -231,6 +249,15 @@ CUBIC_HOST_ROOT=/data/cubic sudo bash scripts/prepare_cubic_host.sh
 ISO_VERSION=24.04.2 sudo bash scripts/prepare_cubic_host.sh
 ```
 
+### Cubic workflow helpers
+
+Use these together when building a custom ISO with Cubic:
+
+- `scripts/prepare_cubic_host.sh`
+   - Installs Cubic, fetches Ubuntu ISO, and prepares host staging folders.
+- `scripts/move_cubic_share_to_root.sh`
+   - Moves staged host content into Cubic root share paths and sets `root:users` ownership.
+
 ### `scripts/move_cubic_share_to_root.sh`
 Moves content from host Cubic source directories into the Cubic root
 environment share directory, then sets ownership to `root:users`.
@@ -267,6 +294,23 @@ Current menu options include:
 - Utility, entertainment, emulator, server, and productivity snap downloads
 - Snap status refresh
 
+Menu option map:
+
+| Option | Action |
+|---|---|
+| 1 | Install a single snap from local store |
+| 2 | Install all missing snaps from local store |
+| 3 | Run `install.sh` |
+| 4 | Run `scripts/setup_fileshare.sh` |
+| 5 | Run `scripts/install_language_support.sh` |
+| 6 | Run `scripts/download_utility_snaps.sh` |
+| 7 | Run `scripts/download_entertainment_snaps.sh` |
+| 8 | Run `scripts/download_emulator_snaps.sh` |
+| 9 | Run `scripts/download_server_snaps.sh` |
+| 10 | Run `scripts/download_productivity_snaps.sh` |
+| 11 | Refresh status view |
+| q | Quit menu |
+
 ```bash
 bash menu.sh
 
@@ -287,6 +331,66 @@ SNAP_STORE_DIR=/media/usb/snaps bash menu.sh
 
 For Kiwix content torrents, run `scripts/download_kiwix_torrents.sh` and share
 the `/share/torrent/zim` directory (or your custom `KIWIX_TORRENT_DIR`).
+
+---
+
+## Roadmap
+
+Planned future additions to strengthen the Drifting Bubble model of portable,
+shareable offline internet knowledge.
+
+### 1) Recommended minimum ZIM bundle profiles
+
+Define and automate baseline ZIM profiles for quick deployment:
+- Core profile: Wikipedia (Simple/EN selected), Wiktionary, Wikibooks
+- Education profile: Wikiversity and foundational STEM/reference collections
+- Health & resilience profile: medical/public-health and sanitation references
+- Culture profile: language-learning and public-domain literature indexes
+
+Potential deliverables:
+- Scripted profile manifests (`core`, `education`, `health`, `full`)
+- Size estimates per profile for USB/LAN planning
+- Validation checks to ensure required files exist before sharing
+
+### 2) Additional recommended snap packs
+
+Expand downloadable snap groups beyond current utility/server/productivity sets:
+- Collaboration pack: chat/messaging and coordination tools
+- Learning pack: math/science tools and offline readers
+- Recovery/admin pack: backup, recovery, and monitoring utilities
+- Accessibility pack: text-to-speech and inclusive communication tools
+
+Potential deliverables:
+- New category scripts (`download_collaboration_snaps.sh`, etc.)
+- Unified manifest export of downloaded snap artifacts
+- Optional `minimal` vs `full` selection flags
+
+### 3) Post-install support and sharing bootstrap
+
+Add post-install helpers so systems are immediately ready to host and share
+knowledge content with minimal manual setup.
+
+Planned capabilities:
+- Guided first-boot setup for share paths and ownership
+- One-command content indexing for media, ZIM files, torrents, and installers
+- Automatic permissions/group checks for shared folders
+- LAN discoverability helpers (hostname, share status, access instructions)
+- "Bubble readiness" health checks (content present + services running)
+
+Goal: make it simple for any freshly installed machine to become a reliable
+node in a drifting, offline internet knowledge bubble.
+
+## Validation matrix
+
+| Check | Expected result |
+|---|---|
+| Boot | ISO boots to installer/live environment |
+| Install | Installation completes without critical errors |
+| Network | Wired/Wi-Fi networking works after install |
+| Scripts | `install.sh` and key script groups run successfully |
+| Menu | `menu.sh` options execute expected actions |
+| File share | Samba share is reachable from LAN clients |
+| Content paths | `/shared/snaps`, `/share/torrent/zim`, `/shared/cubic` populated as intended |
 
 ---
 

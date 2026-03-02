@@ -89,6 +89,20 @@ When adding items to your local/offline library:
 3. Prefer sources with clear provenance and moderation.
 4. Keep a small manifest (CSV/JSON/Markdown) of title, source, and license.
 
+### Attribution template
+
+Use this minimal template in your `SOURCES.md` or `LICENSES.md`:
+
+```text
+Title:
+Author/Publisher:
+Source URL:
+License:
+Attribution required: Yes/No
+Date accessed:
+Notes:
+```
+
 ---
 
 ## Suggested use with this repository
